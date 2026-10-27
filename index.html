@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<title>Cesar Food · سيزر · Menu</title>
+<meta name="description" content="Menu de Cesar Food, restaurant syrien à Oran : chawarma, mexicano, chiche taouk, grillades, poulet rôti, burgers.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Bebas+Neue&family=Cairo:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Cesar Food digital menu (opened from the table QR). Storefront colours: black, white, red; mustard brush like the menu boards. */
+  :root {
+    --bk: #111111; --bk2: #1B1B1B; --bk3: #262626; --white: #FFFFFF; --muted: #B9B4AA;
+    --red: #D9262E; --red-2: #F0444B; --mus: #F2A922; --line: rgba(255,255,255,.12);
+    --head: "Bebas Neue", "Lalezar", sans-serif; --body: "Cairo", system-ui, sans-serif;
+  }
+  [dir="rtl"] { --head: "Lalezar", sans-serif; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { background: var(--bk); color: var(--white); font: 600 16px/1.5 var(--body); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--mus); outline-offset: 3px; }
+  .wrap { max-width: 620px; margin-inline: auto; padding-inline: 16px; }
+
+  /* Fixed photo behind the menu (fixed element: smooth on phones) */
+  .bg { position: fixed; inset: 0; z-index: -1; }
+  .bg img { width: 100%; height: 100%; object-fit: cover; }
+  .bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,17,17,.6), rgba(17,17,17,.84) 40%, rgba(17,17,17,.9)); }
+
+  /* Header */
+  .cover { position: relative; height: 250px; overflow: hidden; }
+  .cover img { width: 100%; height: 100%; object-fit: cover; }
+  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(17,17,17,.25), rgba(17,17,17,.2) 40%, #111 100%); }
+  .lang { position: absolute; z-index: 2; top: 14px; inset-inline-end: 14px; height: 38px; min-width: 52px; padding: 0 14px; border-radius: 999px; background: rgba(17,17,17,.7); border: 1px solid rgba(255,255,255,.35); font: 800 14px/1 var(--body); }
+  .brand { position: relative; margin-top: -86px; text-align: center; }
+  .logo-ar { font: 400 68px/1 "Lalezar", sans-serif; text-shadow: 0 4px 18px rgba(0,0,0,.6); }
+  .logo { display: inline-flex; flex-direction: column; align-items: center; margin-top: 2px; font: 400 48px/.9 "Bebas Neue", sans-serif; letter-spacing: .12em; direction: ltr; }
+  .logo i { font: 800 13px/1 var(--body); font-style: normal; background: var(--red); color: #fff; padding: 3px 9px 4px; border-radius: 999px; letter-spacing: .04em; margin-top: 2px; }
+  .kind { font: 800 15px/1.4 var(--body); color: var(--mus); margin-top: 6px; }
+  .pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .pills span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--bk2); border: 1px solid var(--line); font-size: 13px; font-weight: 700; }
+  .pills b { color: var(--mus); }
+  .pills .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #2ECC71; box-shadow: 0 0 0 3px rgba(46,204,113,.25); }
+
+  @media (min-width: 700px) {
+    .cover { max-width: 588px; height: 300px; margin: 18px auto 0; border-radius: 22px; }
+    .cover::after { border-radius: 22px; }
+    .brand { margin-top: -96px; }
+  }
+
+  .chef { display: inline-flex; align-items: center; gap: 12px; margin-top: 14px; padding: 8px 20px; text-align: center; border-radius: 999px; background: var(--bk2); border: 1px solid var(--line); text-align: start; }
+  .chef img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; box-shadow: 0 0 0 2px var(--mus); }
+  .chef b { display: block; font: 800 15px/1.3 var(--body); }
+  .chef small { display: block; font: 600 12.5px/1.3 var(--body); color: var(--muted); }
+
+  /* Promo */
+  .promo { margin-top: 18px; display: flex; align-items: center; gap: 12px; background: var(--red); border-radius: 14px; padding: 12px 16px; box-shadow: 0 12px 28px -14px rgba(217,38,46,.9); }
+  .promo .big { font: 400 42px/1 var(--head); color: var(--white); flex: none; }
+  .promo b { display: block; font: 800 17px/1.25 var(--body); }
+  .promo small { font-size: 13px; opacity: .9; }
+
+  /* Category bar */
+  .chips { position: sticky; top: 0; z-index: 20; margin-top: 18px; background: var(--bk); border-bottom: 1px solid var(--line); box-shadow: 0 10px 18px -14px #000; }
+  .chips .row { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px; max-width: 620px; margin-inline: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .chips .row::-webkit-scrollbar { display: none; }
+  .chips a { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding-inline: 6px 14px; border-radius: 999px; background: var(--bk2); border: 1px solid var(--line); font: 800 14px/1 var(--body); transition: background .2s, border-color .2s, color .2s; }
+  .chips a img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+  .chips a.on { background: var(--mus); border-color: var(--mus); color: var(--bk); }
+
+  /* Category */
+  .cat { padding-top: 24px; scroll-margin-top: 70px; }
+  .banner { position: relative; height: 190px; border-radius: 18px 18px 0 0; overflow: hidden; background: var(--bk2); }
+  .banner img { width: 100%; height: 100%; object-fit: cover; }
+  .banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, rgba(17,17,17,.88)); }
+  .banner .t { position: absolute; z-index: 1; inset: auto 16px 14px; }
+  .brush { display: inline-block; position: relative; font: 400 34px/1.15 var(--head); color: var(--bk); padding: 4px 18px 2px; letter-spacing: .02em; }
+  .brush::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--mus); border-radius: 4px 14px 6px 18px; transform: skew(-6deg) rotate(-1deg); }
+  .banner .t { isolation: isolate; }
+  .banner p { margin-top: 6px; color: #EDE8DD; font-size: 14px; text-shadow: 0 1px 6px rgba(0,0,0,.7); }
+  .panel { background: rgba(27,27,27,.93); border: 1px solid var(--line); border-top: 0; border-radius: 0 0 18px 18px; padding: 4px 16px 10px; }
+  .sub-h { display: flex; align-items: center; gap: 10px; font: 800 13px/1 var(--body); color: var(--red-2); letter-spacing: .06em; margin: 18px 0 4px; }
+  [dir="ltr"] .sub-h { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; }
+  .sub-h::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .items { list-style: none; }
+  .items li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,.1); }
+  .items li:last-child { border-bottom: 0; }
+  .items .ph { width: 58px; height: 58px; border-radius: 14px; object-fit: cover; flex: none; }
+  .items .tx { flex: 1; min-width: 0; }
+  .items .nm { font: 800 17px/1.3 var(--body); }
+  .items .ds { display: block; font: 600 13.5px/1.45 var(--body); color: var(--muted); margin-top: 2px; }
+  .items .pr { flex: none; text-align: center; min-width: 74px; padding: 7px 10px; border-radius: 10px; background: var(--bk3); font: 400 22px/1 "Bebas Neue", sans-serif; letter-spacing: .03em; color: var(--mus); }
+  .items .pr small { font: 800 11px/1 var(--body); color: var(--muted); margin-inline-start: 3px; letter-spacing: 0; }
+  .items .pr.ask { font: 700 11.5px/1.25 var(--body); color: var(--muted); letter-spacing: 0; max-width: 86px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; margin-inline-start: 6px; padding: 2px 8px; border-radius: 999px; font: 800 11px/1.5 var(--body); vertical-align: middle; }
+  .tag.hot { background: rgba(217,38,46,.18); color: #FF6B70; }
+  .tag.star { background: var(--mus); color: var(--bk); }
+
+  /* Drinks note */
+  .note-card { margin-top: 24px; display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 18px; background: rgba(27,27,27,.93); border: 1px solid var(--line); }
+  .note-card .ic { width: 50px; height: 50px; border-radius: 14px; background: var(--red); display: grid; place-items: center; flex: none; font-size: 24px; }
+  .note-card b { font-size: 16px; }
+  .note-card p { color: var(--muted); font-size: 13.5px; }
+
+  /* Footer */
+  footer { margin-top: 30px; padding: 26px 0 calc(34px + env(safe-area-inset-bottom)); background: rgba(10,10,10,.94); border-top: 3px solid var(--red); text-align: center; }
+  footer .logo { font-size: 34px; }
+  footer .addr { margin-top: 10px; font-size: 15px; }
+  footer .meta { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .links { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .links a { min-height: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 12px; font: 800 15px/1 var(--body); background: var(--bk3); border: 1px solid var(--line); }
+  .links a.call { background: var(--red); border-color: var(--red); }
+  .links svg { width: 18px; height: 18px; flex: none; }
+  .fine { color: var(--muted); font-size: 12.5px; margin-top: 16px; }
+  .credit { display: inline-flex; align-items: center; gap: 7px; margin-top: 18px; direction: ltr; opacity: .8; }
+  .credit span { font: 600 10px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .credit img { height: 14px; width: auto; }
+  @media (prefers-reduced-motion: reduce) { .chips a { transition: none; } }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"><img src="img/bg-blur.webp" alt=""></div>
+
+<header>
+  <div class="cover"><img src="img/enseigne.webp" alt="" fetchpriority="high"><button class="lang" id="lang" type="button">FR</button></div>
+  <div class="wrap brand">
+    <div class="logo-ar">سيزر</div>
+    <h1 class="logo" aria-label="Cesar Food">CESAR<i>food</i></h1>
+    <p class="kind" data-i="kind">ماكولات سورية · وهران</p>
+    <div class="chef"><div><b data-i="chefT">بإدارة الشيف أبو هيثم</b><small data-i="chefS">ماكولات سورية أصيلة</small></div></div>
+    <div class="pills">
+      <span><b>4,4 ★</b> Google</span>
+      <span data-i="mode">في المحل · سفري</span>
+    </div>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Menu"><div class="row" id="chips"></div></nav>
+
+<main class="wrap" id="menu"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="logo">CESAR<i>food</i></div>
+    <p class="addr" data-i="addr">شارع هاروني بوزيان، وهران</p>
+    <p class="meta" data-i="meta">في المحل وسفري</p>
+    <div class="links">
+      <a class="call" href="tel:+213541327466"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z"/></svg><span dir="ltr">0541 32 74 66</span></a>
+      <a href="https://www.google.com/maps/search/?api=1&query=C%C3%A9sar%20restaurant%20Oran&query_place_id=ChIJLQkqHvOJfg0RyTQ611OjYno" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span data-i="map">الاتجاهات</span></a>
+    </div>
+    <p class="fine" data-i="fine">الأسعار بالدينار الجزائري وقد تتغير.</p>
+    <a class="credit" href="https://www.instagram.com/oranova.agency/" target="_blank" rel="noopener" aria-label="Designed by Oranova"><span>Designed by</span><img src="img/oranova.svg" alt="Oranova"></a>
+  </div>
+</footer>
+
+<script>
+// Read from the menu boards inside the restaurant. Crossed-out items (unavailable) are left out.
+// Item: [arabic, french, price (null = ask at the counter), descAr, descFr, photo, tag]
+const MENU = [
+  { id: "plats", ar: "الوجبات", fr: "Les plats", img: "plats", subAr: "صحون كاملة", subFr: "Assiettes complètes", groups: [
+    { ar: "شاورما", fr: "Chawarma", items: [
+      ["شاورما عربي", "Chawarma arabi", 1300, "", "", "arabi", "star"],
+      ["شاورما دجاج", "Chawarma poulet", 1300, "", "", "plate21"],
+      ["شاورما لحم", "Chawarma viande", 1500, "", "", "arabi-top2"],
+      ["شاورما عربي لحم", "Chawarma arabi viande", 1600, "", "", "arabi-mid"] ] },
+    { ar: "تخصصات", fr: "Spécialités", items: [
+      ["شيش", "Chiche taouk", 1300, "", "", "shish"],
+      ["مكسكانو دجاج", "Mexicano poulet", 1300, "", "", "mexicano"],
+      ["مكسكانو لحم", "Mexicano viande", 1000, "", "", "mexicano2"],
+      ["فهيتا", "Fajita", 1300, "", "", "fajita"],
+      ["سبريم", "Suprême", 1300, "", "", "crispy"],
+      ["كبدة دجاج", "Foie de poulet", 1300, "", "", "grill"] ] },
+    { ar: "مشاوي ودجاج", fr: "Grillades & poulet", items: [
+      ["مشاوي مشكلة", "Grillades mixtes", 2500, "", "", "mashawi"],
+      ["اكسترا مشاوي مشكلة", "Grillades mixtes extra", 3500, "", "", "mashawi2"],
+      ["دجاج رويال", "Poulet royal", 2800, "", "", "royal"],
+      ["نصف دجاج مع رز برياني", "Demi-poulet, riz biryani", 1000, "", "", "biryani"],
+      ["دجاج مشوي مع فريت", "Poulet rôti, frites", 1800, "", "", "broche"],
+      ["دجاج مشوي على الفحم", "Poulet grillé au charbon", 2000, "", "", "charbon"] ] } ] },
+  { id: "shawarma", ar: "سندويش شاورما", fr: "Sandwichs chawarma", img: "shawarma", subAr: "شاورما على الطريقة السورية", subFr: "Chawarma à la syrienne", groups: [
+    { ar: "دجاج", fr: "Poulet", items: [
+      ["شاورما + بطاطا + صوص", "Chawarma, pommes de terre, sauce", 350, "", "", "shawarma"],
+      ["شاورما + بطاطا + سلطة + صوص", "Chawarma, pommes de terre, salade, sauce", 400, "", "", "roll2"],
+      ["شاورما اكسترا صوص", "Chawarma extra sauce", 500, "", "", "shawarma2"],
+      ["شاورما صوص + فريت + فرماج", "Chawarma, sauce, frites, fromage", 600, "", "", "rolls2"] ] },
+    { ar: "لحم", fr: "Viande", items: [
+      ["شاورما لحم صوص + فريت + بيواز", "Chawarma viande, sauce, frites, piwaz", null, "", "", "roll"],
+      ["شاورما لحم اكسترا صوص + فريت + بيواز", "Chawarma viande extra sauce, frites, piwaz", null, "", "", "rolls"],
+      ["شاورما ميكس دجاج + لحم", "Chawarma mix poulet & viande", 500, "", "", "arabi-top"] ] } ] },
+  { id: "mexicano", ar: "مكسيكانو وفهيتا", fr: "Mexicano & fajita", img: "mexicano", subAr: "خبز محمّص على الصاج", subFr: "Pain grillé au saj", groups: [
+    { ar: "مكسيكانو", fr: "Mexicano", items: [
+      ["مكسيكانو دجاج صوص بيكانت + فريت", "Mexicano poulet sauce piquante, frites", 450, "", "", "mexicano", "hot"],
+      ["مكسيكانو دجاج صوص بيكانت بدون فريت", "Mexicano poulet sauce piquante, sans frites", 550, "", "", "mexicano3", "hot"],
+      ["مكسيكانو سوبريمو جبنة قودا", "Mexicano supremo, gouda", 600, "", "", "mexicano2"] ] },
+    { ar: "فهيتا", fr: "Fajita", items: [
+      ["فهيتا صوص فرماج + فريت + سكالوب", "Fajita sauce fromage, frites, escalope", 450, "", "", "fajita"],
+      ["فهيتا بدون فريت", "Fajita sans frites", 550, "", "", "bourek"] ] } ] },
+  { id: "shish", ar: "شيش طاووق وكبدة", fr: "Chiche taouk & foie", img: "shish", subAr: "مشوي على الجمر", subFr: "Grillé sur la braise", groups: [
+    { ar: "شيش طاووق", fr: "Chiche taouk", items: [
+      ["شيش صوص + فريت + سلطة + بيواز", "Chiche, sauce, frites, salade, piwaz", 450, "", "", "shish"],
+      ["شيش بدون فريت مع سلطة", "Chiche sans frites, avec salade", 450, "", "", "kofta"],
+      ["شيش اكسترا دوبل صوص + بيواز", "Chiche extra double, sauce, piwaz", 900, "", "", "shish2"] ] },
+    { ar: "كبدة وسوبريم", fr: "Foie & suprême", items: [
+      ["سندويتش كبدة بدون فريت", "Sandwich foie, sans frites", 600, "", "", "grill"],
+      ["سندويتش كبدة دجاج", "Sandwich foie de poulet", 450, "", "", "grill2"],
+      ["سوبريم صوص + فريت + سويسرية", "Suprême, sauce, frites, suisse", 600, "", "", "crispy"] ] } ] },
+  { id: "burgers", ar: "برغر وكريسبي", fr: "Burgers & crispy", img: "crispy", subAr: "مقرمش ولذيذ", subFr: "Croustillant et généreux", groups: [
+    { ar: "همبرغر", fr: "Burgers", items: [
+      ["همبرغر دجاج", "Burger poulet", 450, "", "", "burger2"],
+      ["همبرغر لحم", "Burger viande", 600, "", "", "burger3"],
+      ["همبرغر لحم دوبلي", "Burger viande double", 800, "", "", "burger1"] ] },
+    { ar: "كريسبي وزنجر", fr: "Crispy & zinger", items: [
+      ["كريسبي صوص + فريت + سويسرية", "Crispy, sauce, frites, suisse", 450, "", "", "crispy-mix"],
+      ["زنجر صوص + فريت + سويسرية + جبنة", "Zinger, sauce, frites, suisse, fromage", 450, "", "", "crispy2"],
+      ["سندويتش فلافل", "Sandwich falafel", 400, "", "", "falafel"] ] } ] },
+  { id: "aperitifs", ar: "المقبلات", fr: "Les apéritifs", img: "aperitifs", subAr: "للمشاركة على الطاولة", subFr: "À partager à table", groups: [
+    { ar: "", fr: "", items: [
+      ["فلافل مع حمص", "Falafel & houmous", 400, "", "", "falafel"],
+      ["حمص", "Houmous", 400, "", "", "hummus"],
+      ["صوص ثومية", "Sauce à l'ail (toum)", 150, "", "", "toum"],
+      ["كبة", "Kebbé", 250, "", "", "kebbe"],
+      ["بوراك", "Bourek", 150, "", "", "bourek"],
+      ["حبة كريسبي + فريت", "Pièce crispy & frites", 400, "", "", "crispy-mix"],
+      ["حبة زنجر + فريت", "Pièce zinger & frites", 450, "", "", "crispy2"],
+      ["فريت", "Frites", 250, "", "", "fries"] ] } ] }
+];
+
+const T = {
+  ar: { kind: "ماكولات سورية · وهران", chefT: "بإدارة الشيف أبو هيثم", chefS: "ماكولات سورية أصيلة", mode: "في المحل · سفري", 
+        addr: "شارع هاروني بوزيان، وهران", meta: "في المحل وسفري", map: "الاتجاهات", fine: "الأسعار بالدينار الجزائري وقد تتغير.",
+        cur: "دج", ask: "اسأل عند الكاونتر", hot: "🌶 حار", star: "★ الأشهر", drinksT: "المشروبات الباردة", drinksP: "مشروبات غازية وعصائر في الثلاجة، اسأل عند الكاونتر.", drinksChip: "مشروبات", langBtn: "FR", langLabel: "Passer en français" },
+  fr: { kind: "Saveurs syriennes · Oran", chefT: "Par le chef Abou Haitham", chefS: "Cuisine syrienne authentique", mode: "Sur place · À emporter", 
+        addr: "Rue Harouni Bouziane, Oran", meta: "Sur place et à emporter", map: "Itinéraire", fine: "Prix en dinars algériens, susceptibles d'évoluer.",
+        cur: "DA", ask: "Prix au comptoir", hot: "🌶 Pimenté", star: "★ Signature", drinksT: "Boissons fraîches", drinksP: "Sodas et jus au frigo, demandez au comptoir.", drinksChip: "Boissons", langBtn: "عربي", langLabel: "التبديل إلى العربية" }
+};
+
+let lang = "ar";
+try { if (localStorage.getItem("cesar-lang") === "fr") lang = "fr"; } catch (e) {}
+const chipsRow = document.getElementById("chips");
+const fmt = n => n.toLocaleString("fr-FR").replace(/ | /g, " ");
+
+function render() {
+  const t = T[lang], other = lang === "ar" ? "fr" : "ar";
+  document.documentElement.lang = lang; document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i]").forEach(el => { const v = t[el.dataset.i]; if (typeof v === "string") el.textContent = v; });
+  const b = document.getElementById("lang"); b.textContent = t.langBtn; b.setAttribute("aria-label", t.langLabel);
+
+  chipsRow.innerHTML = MENU.map(c => `<a href="#${c.id}" data-c="${c.id}"><img src="img/${c.img}.webp" alt="">${c[lang]}</a>`).join("")
+    + `<a href="#boissons" data-c="boissons"><img src="img/comptoir.webp" alt="">${t.drinksChip}</a>`;
+
+  document.getElementById("menu").innerHTML = MENU.map((c, i) => `
+    <section class="cat" id="${c.id}">
+      <div class="banner"><img src="img/${c.img}.webp" alt="" ${i ? 'loading="lazy"' : ""}>
+        <div class="t"><h2 class="brush">${c[lang]}</h2><p>${lang === "ar" ? c.subAr : c.subFr}</p></div></div>
+      <div class="panel">${c.groups.map(g => `${g[lang] ? `<p class="sub-h">${g[lang]}</p>` : ""}<ul class="items">${g.items.map(([ar, fr, p, dar, dfr, ph, tag]) => {
+        const name = lang === "ar" ? ar : fr, alt = lang === "ar" ? fr : ar;
+        return `<li>${ph ? `<img class="ph" src="img/t/${ph}.webp" alt="" loading="lazy">` : ""}
+          <div class="tx"><span class="nm">${name}</span>${tag ? `<span class="tag ${tag}">${t[tag]}</span>` : ""}<span class="ds" dir="${other === "ar" ? "rtl" : "ltr"}">${alt}</span></div>
+          ${p ? `<span class="pr" dir="ltr">${fmt(p)}<small>${t.cur}</small></span>` : `<span class="pr ask">${t.ask}</span>`}</li>`;
+      }).join("")}</ul>`).join("")}</div>
+    </section>`).join("") + `
+    <section class="note-card" id="boissons" style="scroll-margin-top:70px"><span class="ic" aria-hidden="true">🥤</span><div><b>${t.drinksT}</b><p>${t.drinksP}</p></div></section>`;
+  current = ""; onScroll();
+}
+
+// Active chip follows the section being read; only the chip row scrolls sideways, never the page.
+let current = "", ticking = false;
+function onScroll() {
+  ticking = false;
+  const secs = document.querySelectorAll(".cat, #boissons");
+  let id = secs[0] && secs[0].id;
+  secs.forEach(s => { if (s.getBoundingClientRect().top < 140) id = s.id; });
+  if (id === current) return;
+  current = id;
+  chipsRow.querySelectorAll("a").forEach(a => a.classList.toggle("on", a.dataset.c === id));
+  const on = chipsRow.querySelector("a.on"); if (!on) return;
+  chipsRow.scrollTo({ left: on.offsetLeft - (chipsRow.clientWidth - on.offsetWidth) / 2, behavior: "auto" });
+}
+addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+
+chipsRow.addEventListener("click", e => {
+  const a = e.target.closest("a[data-c]"); if (!a) return;
+  e.preventDefault();
+  const s = document.getElementById(a.dataset.c);
+  scrollTo({ top: s.getBoundingClientRect().top + scrollY - 64, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+});
+
+document.getElementById("lang").addEventListener("click", () => {
+  const keep = current;
+  lang = lang === "ar" ? "fr" : "ar";
+  try { localStorage.setItem("cesar-lang", lang); } catch (e) {}
+  render();
+  if (keep && scrollY > 300) { const s = document.getElementById(keep); s && scrollTo({ top: s.getBoundingClientRect().top + scrollY - 64 }); }
+});
+render();
+</script>
+</body>
+</html>
